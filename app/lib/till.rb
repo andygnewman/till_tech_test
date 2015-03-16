@@ -8,12 +8,17 @@ class Till
 
   include Menu
 
-  attr_reader :order, :receipt, :tax, :change
+  attr_reader :order, :receipt, :tax, :change, :shop_name
 
   def initialize
     @tax = 8.64
-    menu_read_price_list
+    @shop_name = 'The Coffee Connection'
     new_order
+  end
+
+  def menu_items
+    item_list = ItemList.new(shop_name)
+    item_list.items
   end
 
   def new_order

@@ -9,7 +9,7 @@ class TillApp < Sinatra::Base
   till = Till.new
 
   get '/' do
-    @menu_items = till.menu_read_items
+    @menu_items = till.menu_items
     @order_list = till.order_list
     @receipt = till.print_receipt if till.receipt !=nil
     @change = till.change

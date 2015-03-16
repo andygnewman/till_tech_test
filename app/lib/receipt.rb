@@ -1,16 +1,17 @@
 require_relative 'menu'
 require_relative 'discount'
+require_relative 'tax_total'
 
 
 class Receipt
 
-  attr_reader :tax, :order
+  attr_reader :tax_rate, :order
 
   include Menu
   include Discounts
 
-  def initialize(order, tax = 0)
-    @tax = tax
+  def initialize(order, tax_rate = 0)
+    @tax_rate = tax_rate
     @order = order
     menu_read_price_list
   end
@@ -27,12 +28,17 @@ class Receipt
     order.inject(0) { |memo, line| memo + line_price(line) }
   end
 
+  def pre_tax_total
+    net_total - discount_total
+  end
+
   def tax_total
-    (tax / 100 * (net_total - discount_total)).round(2)
+    args = {tax_rate: @tax_rate, pre_tax_total: pre_tax_total}
+    TaxTotal.new(args).tax_total
   end
 
   def total_due
-    net_total - discount_total + tax_total
+    pre_tax_total + tax_total
   end
 
   def print_receipt

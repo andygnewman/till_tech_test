@@ -8,12 +8,12 @@ describe 'a receipt' do
 
     it 'should know what level of tax to apply' do
       receipt = Receipt.new(double_order, 8)
-      expect(receipt.tax).to eq(8)
+      expect(receipt.tax_rate).to eq(8)
     end
 
     it 'should default to 0 tax if tax not provided' do
       receipt = Receipt.new(double_order)
-      expect(receipt.tax).to eq(0)
+      expect(receipt.tax_rate).to eq(0)
     end
 
   end
